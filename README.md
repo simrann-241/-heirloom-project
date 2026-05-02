@@ -8,7 +8,6 @@
 [![Test Coverage](https://img.shields.io/badge/Coverage-85%25-green)](https://github.com)
 [![Bob Factor](https://img.shields.io/badge/Bob%20Factor-87%25-blue)](https://github.com)
 
-**🔗 Live Demo**: [heirloom-project.vercel.app](https://heirloom-project.vercel.app)  
 **📦 Repository**: [github.com/simrann-241/-heirloom-project](https://github.com/simrann-241/-heirloom-project)  
 **📊 IBM Bob Report**: [docs/BOB_REPORT.md](docs/BOB_REPORT.md)
 
@@ -644,7 +643,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Contact & Links
 
 - **Repository**: [github.com/simrann-241/-heirloom-project](https://github.com/simrann-241/-heirloom-project)
-- **Live Demo**: [heirloom-project.vercel.app](https://heirloom-project.vercel.app)
 - **Developer**: Simran Singh
 - **Hackathon**: IBM Bob Dev Day 2026
 
