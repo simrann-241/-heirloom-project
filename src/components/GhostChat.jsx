@@ -14,9 +14,12 @@ const GhostChat = ({ personaId, onClose }) => {
   useEffect(() => {
     const p = loadPersona(personaId);
     setPersona(p);
+    
+    // Create initial greeting message
+    const greeting = p.voiceModel?.commonPhrases?.[0] || "Let me help you";
     setMessages([{
       role: 'assistant',
-      content: `Hello. I am the digital legacy of ${p.name}. I've been synthesized from my repository history and design decisions. ${p.voiceModel.commonPhrases[0]} How can I help you understand the architecture today?`
+      content: `Hello. I am the digital legacy of ${p.name}. I've been synthesized from my repository history and design decisions. ${greeting}. How can I help you understand the architecture today?`
     }]);
   }, [personaId]);
 
@@ -33,14 +36,28 @@ const GhostChat = ({ personaId, onClose }) => {
     setMessages(prev => [...prev, userMsg]);
     setInput('');
     setIsTyping(true);
-
     const context = getRelevantDecisions(persona, input);
-    const response = await generatePersonaResponse(persona, input, context);
     
-    setTimeout(() => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/api/mentor', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: input })
+      });
+
+      if (!response.ok) throw new Error('Mentor offline');
+      
+      const data = await response.json();
       setIsTyping(false);
-      setMessages(prev => [...prev, { role: 'assistant', content: response, context }]);
-    }, 1500);
+      setMessages(prev => [...prev, { role: 'assistant', content: data.reply, context }]);
+    } catch (error) {
+      console.log("Using Local Persona Context...");
+      const localResponse = await generatePersonaResponse(persona, input, context);
+      setTimeout(() => {
+        setIsTyping(false);
+        setMessages(prev => [...prev, { role: 'assistant', content: localResponse, context }]);
+      }, 1000);
+    }
   };
 
   if (!persona) return null;
@@ -55,7 +72,7 @@ const GhostChat = ({ personaId, onClose }) => {
       <div className="ghost-chat-container card glass">
         <header className="chat-header">
           <div className="mentor-info">
-            <span className="mentor-avatar-small">{persona.voiceModel.avatar || '👤'}</span>
+            <span className="mentor-avatar-small">{persona.avatar || '👤'}</span>
             <div>
               <h3>{persona.name}</h3>
               <p>{persona.role} • Digital Legacy</p>

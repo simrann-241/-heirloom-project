@@ -40,9 +40,9 @@ const GhostMentor = () => {
     role: p.role,
     era: p.id === 'person-2' ? 'Founding Era' : 'Current Maintainer',
     avatar: p.id === 'person-2' ? '👨🏻‍💻' : '👩🏻‍💻',
-    bio: `${p.name} has contributed ${p.prCount} PRs and has an impact score of ${p.impactScore}. Expertise: ${p.expertise.join(', ')}.`,
-    sample: p.id === 'person-2' 
-      ? "Flask is a micro-framework for a reason. Keep the core small, and let extensions do the rest." 
+    bio: `${p.name} has contributed ${p.contributions?.prCount || 0} PRs and has an impact score of ${p.contributions?.impactScore || 0}. Expertise: ${p.expertise?.join(', ') || 'Various'}.`,
+    sample: p.id === 'person-2'
+      ? "Flask is a micro-framework for a reason. Keep the core small, and let extensions do the rest."
       : "We need to ensure async support doesn't break the existing WSGI ecosystem."
   }));
 
