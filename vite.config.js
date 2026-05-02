@@ -96,11 +96,6 @@ export default defineConfig({
     exclude: [],
   },
   
-  // Performance optimizations
-  esbuild: {
-    logOverride: { 'this-is-undefined-in-esm': 'silent' },
-    legalComments: 'none',
-  },
 })
 
 // Made with Bob
