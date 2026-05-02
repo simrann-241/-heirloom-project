@@ -102,48 +102,54 @@ export function getRelevantDecisions(persona, query) {
 }
 
 export async function generatePersonaResponse(persona, query, context) {
-  // In a real app, this would call watsonx.ai or Bob's API
-  // For the demo, we use the simulated persona logic
-  
   if (!persona || !persona.voiceModel) {
     return "I apologize, but I'm having trouble accessing my knowledge base right now.";
   }
   
   const queryLower = query.toLowerCase();
-  
-  // Try to find a matching scenario from example responses
   const exampleResponses = persona.exampleResponses || [];
   
-  // Check for keyword matches - prioritize specific matches first
-  const keywordMatches = [
-    { keywords: ['authentication', 'auth', 'login'], response: exampleResponses.find(r => r.question?.toLowerCase().includes('authentication')) },
-    { keywords: ['flask', 'django', 'better', 'choose', 'vs'], response: exampleResponses.find(r => r.question?.toLowerCase().includes('flask') && r.question?.toLowerCase().includes('django')) },
-    { keywords: ['async', 'await', 'asynchronous'], response: exampleResponses.find(r => r.question?.toLowerCase().includes('async')) },
-    { keywords: ['context local', 'thread local', 'context', 'thread'], response: exampleResponses.find(r => r.question?.toLowerCase().includes('context local')) },
-    { keywords: ['escape', 'revert', 'auto-escape'], response: exampleResponses.find(r => r.question?.toLowerCase().includes('escape')) },
-    { keywords: ['mistake', 'wrong', 'error', 'biggest'], response: exampleResponses.find(r => r.question?.toLowerCase().includes('mistake')) },
-    { keywords: ['philosophy', 'principle', 'approach'], response: exampleResponses.find(r => r.context === 'philosophy-advice') },
-    { keywords: ['why flask', 'why not'], response: exampleResponses.find(r => r.context === 'philosophy') }
-  ];
+  // 1. Check for specific Keyword Matches first (High Precision)
+  const exactMatch = exampleResponses.find(r => 
+    r.question?.toLowerCase().includes(queryLower) || 
+    queryLower.includes(r.question?.toLowerCase())
+  );
   
-  // Find best match
-  for (const match of keywordMatches) {
-    if (match.response && match.keywords.some(kw => queryLower.includes(kw))) {
-      return match.response.response;
-    }
+  if (exactMatch) return exactMatch.response;
+
+  // 2. Intent Detection
+  const isComparison = queryLower.includes('vs') || queryLower.includes('better') || queryLower.includes('or') || queryLower.includes('difference') || queryLower.includes('btw') || queryLower.includes('between');
+  const isMistake = queryLower.includes('mistake') || queryLower.includes('wrong') || queryLower.includes('error');
+  const isPhilosophy = queryLower.includes('why') || queryLower.includes('philosophy') || queryLower.includes('reason') || queryLower.includes('should');
+  const isTechnical = queryLower.includes('how') || queryLower.includes('implementation') || queryLower.includes('code') || queryLower.includes('what');
+
+  // 3. Dynamic Phrases Pool
+  const commonPhrases = persona.voiceModel?.commonPhrases || ["Let me explain", "The reason is"];
+  const catchphrases = persona.voiceModel?.catchphrases || commonPhrases;
+  
+  // Get randomized phrase to avoid repetition
+  const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
+  const opening = getRandom(commonPhrases);
+  const coreIdea = getRandom(persona.profile?.philosophies || ["simplicity over complexity"]);
+  
+  // 4. Build Contextual Response
+  let response = `${opening}. `;
+
+  if (isComparison) {
+    response += `When comparing architectures, we must focus on ${coreIdea.toLowerCase()}. In the early days of Flask, we didn't want to prescribe a structure. Django is great for 'batteries included', but we wanted to give developers the primitives to build their own batteries. It's about tradeoffs, not winners.`;
+  } else if (isMistake) {
+    response += `Looking back, I'd say our biggest mistake was sometimes being too implicit. We wanted "magic" but magic can be hard to debug when it breaks. We fixed some of this in the later refactors, specifically around context safety.`;
+  } else if (isPhilosophy) {
+    response += `My core philosophy is that ${coreIdea.toLowerCase()}. If the system is too rigid, it breaks. If it's too loose, it's a mess. We aimed for the middle ground where the user is always in control, even if we help them a little.`;
+  } else if (isTechnical) {
+    const decisions = context && context.length > 0 
+      ? `We actually addressed this in ${context[0].title}. ` 
+      : `This touches on how we handle state. `;
+    response += `${decisions}We used context locals as a safer alternative to thread locals because we wanted to support modern async patterns without compromising on simplicity.`;
+  } else {
+    // General high-fidelity Armin-ism
+    response += `The question of "${query}" is interesting. It always comes back to one thing: ${coreIdea.toLowerCase()}. Don't build for tomorrow's scale until you've solved today's problem. Keeping the core small allows us to evolve without breaking the world.`;
   }
 
-  // Fallback to a persona-styled response using their voice
-  const commonPhrases = persona.voiceModel?.commonPhrases || ["Let me explain", "The reason is"];
-  const philosophies = persona.profile?.philosophies || [];
-  const corePrinciple = persona.technicalPhilosophy?.corePrinciple ||
-                       philosophies[0] ||
-                       "maintaining simplicity and composability";
-  
-  // Build a response in Armin's style
-  const decisionLinks = context && context.length > 0
-    ? ` Looking at ${context.map(d => `[${d.title || d.id}]`).join(', ')}, `
-    : '';
-  
-  return `${commonPhrases[0]}.${decisionLinks}${commonPhrases[1]} ${corePrinciple}. Flask is a micro-framework for a reason - we give you primitives, not prescriptions. The question isn't about which tool is "better" - it's about which tool fits YOUR constraints. Trade-off: every choice sacrifices something. Choose based on your actual requirements, not internet arguments. Watch out: don't pick a framework because it's trendy. Pick it because it solves your problem.`;
+  return response;
 }

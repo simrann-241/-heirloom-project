@@ -56,10 +56,17 @@ const WhyChat = () => {
 
       const data = await response.json();
       
-      // Auto-generate citations for the demo
+      // 🔗 DYNAMIC CITATION EXTRACTOR
       let citations = [];
-      if (userMsg.includes('async')) citations = [{ type: 'pr', label: 'PR #3928', url: 'https://github.com/pallets/flask/pull/3928' }];
-      if (userMsg.includes('landmine')) citations = [{ type: 'file', label: 'ctx.py', url: '#' }];
+      const prMatch = data.reply.match(/PR #(\d+)/);
+      if (prMatch) {
+        const prNum = prMatch[1];
+        citations.push({ 
+          type: 'pr', 
+          label: `PR #${prNum}`, 
+          url: `https://github.com/pallets/flask/pull/${prNum}` 
+        });
+      }
 
       setIsTyping(false);
       setMessages(prev => [...prev, { text: data.reply, sender: "ai", citations }]);
