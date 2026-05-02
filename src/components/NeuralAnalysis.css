@@ -1,0 +1,122 @@
+.neural-analysis-view {
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pipeline-grid {
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.pipeline-column {
+  flex: 1;
+  background: var(--bg-secondary);
+  padding: 32px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+}
+
+.column-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+  color: var(--forest);
+}
+
+.column-header h3 {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.steps-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.phase-step {
+  display: flex;
+  gap: 16px;
+}
+
+.step-icon {
+  width: 40px;
+  height: 40px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sage);
+  flex-shrink: 0;
+}
+
+.step-content h4 {
+  font-size: 16px;
+  color: var(--forest);
+  margin-bottom: 4px;
+}
+
+.step-content p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.pipeline-connector {
+  display: flex;
+  align-items: center;
+  padding-top: 100px;
+}
+
+.connector-line {
+  width: 40px;
+  height: 2px;
+  background: var(--border);
+  position: relative;
+}
+
+.connector-line::after {
+  content: '→';
+  position: absolute;
+  right: -10px;
+  top: -11px;
+  color: var(--border);
+  font-size: 20px;
+}
+
+.live-trace-panel {
+  background: #1a1a1a !important;
+  color: #00ff41;
+  padding: 24px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.trace-terminal {
+  padding-top: 16px;
+}
+
+.trace-line {
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.trace-line span {
+  color: #888;
+  margin-right: 8px;
+}
+
+.blink {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}

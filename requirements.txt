@@ -1,0 +1,6 @@
+ibm-watson-machine-learning
+python-dotenv
+flask
+flask-cors
+requests
+pandas

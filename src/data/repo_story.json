@@ -1,0 +1,873 @@
+{
+  "repository": {
+    "name": "pallets/flask",
+    "description": "The Python micro framework for building web applications",
+    "url": "https://github.com/pallets/flask",
+    "stars": 67000,
+    "language": "Python"
+  },
+  "metadata": {
+    "generatedAt": "2026-05-02T00:41:02.030950",
+    "extractionMethod": "hybrid",
+    "totalDecisions": 5,
+    "totalLandmines": 3,
+    "totalPersons": 4,
+    "totalFiles": 13
+  },
+  "nodes": {
+    "decisions": [
+      {
+        "id": "decision-1",
+        "type": "architectural",
+        "timestamp": "2026-02-27T00:41:01.897595",
+        "title": "Refactor application context to use context locals",
+        "what": {
+          "changes": [
+            {
+              "file": "src/flask/ctx.py",
+              "linesAdded": 52,
+              "linesRemoved": 91,
+              "diffSummary": "Modified ctx.py"
+            },
+            {
+              "file": "src/flask/globals.py",
+              "linesAdded": 125,
+              "linesRemoved": 39,
+              "diffSummary": "Modified globals.py"
+            }
+          ],
+          "summary": "Refactor application context to use context locals"
+        },
+        "why": {
+          "primaryReason": "The reason is that thread locals don't work well with async frameworks and greenlets. This addresses the growing need for async support in Flask.",
+          "context": "We decided to refactor the application context to use context locals instead of thread locals.               The reason is that thread locals don't work well with async frameworks and greenlets. This addresses the growing need for async support in Flask.",
+          "problemStatement": "Addressing technical requirements",
+          "alternativesConsidered": [
+            {
+              "option": "We considered keeping thread locals but rejected this because it would limit Flask's future compatib",
+              "rejectedBecause": "Did not meet requirements"
+            },
+            {
+              "option": "We considered keeping thread locals but rejected this because it would limit Flask's future compatib",
+              "rejectedBecause": "Did not meet requirements"
+            }
+          ],
+          "tradeoffs": [
+            {
+              "gained": "Improved functionality",
+              "sacrificed": "Trade-off: We gain better async compatibility but sacrifice some backwards compatibility with very o"
+            },
+            {
+              "gained": "Improved functionality",
+              "sacrificed": "Trade-off: We gain better async compatibility but sacrifice some backwards compatibility with very o"
+            }
+          ],
+          "constraints": [],
+          "futureImplications": "We considered keeping thread locals but rejected this because it would limit Flask's future compatibility with async/await patterns."
+        },
+        "evidence": {
+          "sourceType": "pr",
+          "sourceId": "PR#1000",
+          "sourceUrl": "https://github.com/pallets/flask/pull/1000",
+          "extractionMethod": "hybrid",
+          "confidenceScore": 1.0,
+          "keyQuotes": [
+            {
+              "text": "We decided to refactor the application context to use context locals instead of thread locals. ",
+              "author": "Grey Li",
+              "context": "PR description"
+            }
+          ]
+        },
+        "metadata": {
+          "repository": "pallets/flask",
+          "branch": "main",
+          "prNumber": 1000,
+          "commitSha": "abc0def0123",
+          "authors": [
+            "Grey Li"
+          ],
+          "reviewers": [
+            "David Lord",
+            "Armin Ronacher"
+          ],
+          "labels": [
+            "architectural",
+            "enhancement"
+          ],
+          "linkedIssues": [
+            "#900"
+          ]
+        }
+      },
+      {
+        "id": "decision-2",
+        "type": "technical",
+        "timestamp": "2024-07-03T00:41:01.944721",
+        "title": "Add type hints to core Flask APIs",
+        "what": {
+          "changes": [
+            {
+              "file": "src/flask/app.py",
+              "linesAdded": 49,
+              "linesRemoved": 20,
+              "diffSummary": "Modified app.py"
+            },
+            {
+              "file": "src/flask/blueprints.py",
+              "linesAdded": 153,
+              "linesRemoved": 14,
+              "diffSummary": "Modified blueprints.py"
+            },
+            {
+              "file": "src/flask/views.py",
+              "linesAdded": 167,
+              "linesRemoved": 98,
+              "diffSummary": "Modified views.py"
+            }
+          ],
+          "summary": "Add type hints to core Flask APIs"
+        },
+        "why": {
+          "primaryReason": "This solves the problem of unclear API contracts and helps IDEs provide better autocomplete.",
+          "context": "Opted for adding comprehensive type hints to improve developer experience and catch errors early.  This solves the problem of unclear API contracts and helps IDEs provide better autocomplete.",
+          "problemStatement": "Opted for adding comprehensive type hints to improve developer experience and catch errors early.",
+          "alternativesConsidered": [
+            {
+              "option": "We evaluated using stub files instead but went with inline type hints for better maintainability.",
+              "rejectedBecause": "Did not meet requirements"
+            },
+            {
+              "option": "We evaluated using stub files instead but went with inline type hints for better maintainability.",
+              "rejectedBecause": "Did not meet requirements"
+            }
+          ],
+          "tradeoffs": [
+            {
+              "gained": "Improved functionality",
+              "sacrificed": "The downside is increased complexity in some generic types, but the benefits for users outweigh this"
+            },
+            {
+              "gained": "Improved functionality",
+              "sacrificed": "We evaluated using stub files instead but went with inline type hints for better maintainability."
+            }
+          ],
+          "constraints": [],
+          "futureImplications": "May require future refinement"
+        },
+        "evidence": {
+          "sourceType": "pr",
+          "sourceId": "PR#1001",
+          "sourceUrl": "https://github.com/pallets/flask/pull/1001",
+          "extractionMethod": "hybrid",
+          "confidenceScore": 1.0,
+          "keyQuotes": [
+            {
+              "text": "Opted for adding comprehensive type hints to improve developer experience and catch errors early.",
+              "author": "Grey Li",
+              "context": "PR description"
+            }
+          ]
+        },
+        "metadata": {
+          "repository": "pallets/flask",
+          "branch": "main",
+          "prNumber": 1001,
+          "commitSha": "abc1def1123",
+          "authors": [
+            "Grey Li"
+          ],
+          "reviewers": [
+            "Phil Jones",
+            "Grey Li"
+          ],
+          "labels": [
+            "technical",
+            "enhancement"
+          ],
+          "linkedIssues": [
+            "#901"
+          ]
+        }
+      },
+      {
+        "id": "decision-3",
+        "type": "refactor",
+        "timestamp": "2025-07-31T00:41:01.962690",
+        "title": "Deprecate JSONEncoder in favor of json.dumps",
+        "what": {
+          "changes": [
+            {
+              "file": "src/flask/json/__init__.py",
+              "linesAdded": 185,
+              "linesRemoved": 8,
+              "diffSummary": "Modified __init__.py"
+            }
+          ],
+          "summary": "Deprecate JSONEncoder in favor of json.dumps"
+        },
+        "why": {
+          "primaryReason": "The problem was maintaining a parallel JSON encoding system that duplicated standard library functionality.",
+          "context": "Decided to deprecate the custom JSONEncoder class because Python's json module now supports most use cases.  The problem was maintaining a parallel JSON encoding system that duplicated standard library functionality.",
+          "problemStatement": "The problem was maintaining a parallel JSON encoding system that duplicated standard library functionality.",
+          "alternativesConsidered": [
+            {
+              "option": "We considered keeping both but rejected this to reduce maintenance burden.",
+              "rejectedBecause": "Did not meet requirements"
+            },
+            {
+              "option": "We considered keeping both but rejected this to reduce maintenance burden.",
+              "rejectedBecause": "Did not meet requirements"
+            }
+          ],
+          "tradeoffs": [
+            {
+              "gained": "Improved functionality",
+              "sacrificed": "Trade-off: Simpler codebase at the cost of requiring users to migrate their custom encoders."
+            },
+            {
+              "gained": "Improved functionality",
+              "sacrificed": "Trade-off: Simpler codebase at the cost of requiring users to migrate their custom encoders."
+            }
+          ],
+          "constraints": [],
+          "futureImplications": "Watch out: Extensions that override JSONEncoder will need updates. This is a known gotcha."
+        },
+        "evidence": {
+          "sourceType": "pr",
+          "sourceId": "PR#1002",
+          "sourceUrl": "https://github.com/pallets/flask/pull/1002",
+          "extractionMethod": "hybrid",
+          "confidenceScore": 1.0,
+          "keyQuotes": [
+            {
+              "text": "Decided to deprecate the custom JSONEncoder class because Python's json module now supports most use cases.",
+              "author": "Grey Li",
+              "context": "PR description"
+            }
+          ]
+        },
+        "metadata": {
+          "repository": "pallets/flask",
+          "branch": "main",
+          "prNumber": 1002,
+          "commitSha": "abc2def2123",
+          "authors": [
+            "Grey Li"
+          ],
+          "reviewers": [
+            "Grey Li",
+            "Armin Ronacher"
+          ],
+          "labels": [
+            "refactor",
+            "enhancement"
+          ],
+          "linkedIssues": [
+            "#902"
+          ]
+        }
+      },
+      {
+        "id": "decision-4",
+        "type": "architectural",
+        "timestamp": "2025-10-29T00:41:01.984102",
+        "title": "Implement async view support",
+        "what": {
+          "changes": [
+            {
+              "file": "src/flask/app.py",
+              "linesAdded": 155,
+              "linesRemoved": 6,
+              "diffSummary": "Modified app.py"
+            },
+            {
+              "file": "src/flask/views.py",
+              "linesAdded": 93,
+              "linesRemoved": 53,
+              "diffSummary": "Modified views.py"
+            }
+          ],
+          "summary": "Implement async view support"
+        },
+        "why": {
+          "primaryReason": "This addresses the issue of Flask being perceived as sync-only in an increasingly async Python ecosystem.",
+          "context": "Chose to add native async/await support for view functions to modernize Flask for async workloads.  This addresses the issue of Flask being perceived as sync-only in an increasingly async Python ecosystem.",
+          "problemStatement": "This addresses the issue of Flask being perceived as sync-only in an increasingly async Python ecosystem.",
+          "alternativesConsidered": [
+            {
+              "option": "We considered using a separate async-flask package but decided to integrate it into core for better ",
+              "rejectedBecause": "Did not meet requirements"
+            }
+          ],
+          "tradeoffs": [
+            {
+              "gained": "Improved functionality",
+              "sacrificed": "Trade-off: Added complexity to the routing system, but enables modern async patterns without third-p"
+            },
+            {
+              "gained": "Improved functionality",
+              "sacrificed": "e considered using a separate async-flask package but decided to integrate it into core for better u"
+            }
+          ],
+          "constraints": [],
+          "futureImplications": "May require future refinement"
+        },
+        "evidence": {
+          "sourceType": "pr",
+          "sourceId": "PR#1003",
+          "sourceUrl": "https://github.com/pallets/flask/pull/1003",
+          "extractionMethod": "hybrid",
+          "confidenceScore": 1.0,
+          "keyQuotes": [
+            {
+              "text": "Chose to add native async/await support for view functions to modernize Flask for async workloads.",
+              "author": "Grey Li",
+              "context": "PR description"
+            }
+          ]
+        },
+        "metadata": {
+          "repository": "pallets/flask",
+          "branch": "main",
+          "prNumber": 1003,
+          "commitSha": "abc3def3123",
+          "authors": [
+            "Grey Li"
+          ],
+          "reviewers": [
+            "Armin Ronacher",
+            "Grey Li"
+          ],
+          "labels": [
+            "architectural",
+            "enhancement"
+          ],
+          "linkedIssues": [
+            "#903"
+          ]
+        }
+      },
+      {
+        "id": "decision-5",
+        "type": "refactor",
+        "timestamp": "2025-08-30T00:41:02.005314",
+        "title": "Reverted: Auto-escape all template variables by default",
+        "what": {
+          "changes": [
+            {
+              "file": "src/flask/templating.py",
+              "linesAdded": 63,
+              "linesRemoved": 40,
+              "diffSummary": "Modified templating.py"
+            }
+          ],
+          "summary": "Reverted: Auto-escape all template variables by default"
+        },
+        "why": {
+          "primaryReason": "The problem was that while auto-escaping improves security, the migration path was too disruptive for the ecosystem.",
+          "context": "We reverted the auto-escape change because it broke too many existing applications.  The problem was that while auto-escaping improves security, the migration path was too disruptive for the ecosystem.",
+          "problemStatement": "The problem was that while auto-escaping improves security, the migration path was too disruptive for the ecosystem.",
+          "alternativesConsidered": [
+            {
+              "option": "We considered a gradual migration with warnings but rejected this due to the complexity of detecting",
+              "rejectedBecause": "Did not meet requirements"
+            },
+            {
+              "option": "considered a gradual migration with warnings but rejected this due to the complexity of detecting al",
+              "rejectedBecause": "Did not meet requirements"
+            }
+          ],
+          "tradeoffs": [
+            {
+              "gained": "Improved functionality",
+              "sacrificed": "Trade-off: We sacrifice some security-by-default for backwards compatibility and ecosystem stability"
+            },
+            {
+              "gained": "Improved functionality",
+              "sacrificed": "Trade-off: We sacrifice some security-by-default for backwards compatibility and ecosystem stability"
+            }
+          ],
+          "constraints": [
+            "Be aware: This means developers must still manually escape variables in templates. Known pitfall for new users."
+          ],
+          "futureImplications": "May require future refinement"
+        },
+        "evidence": {
+          "sourceType": "pr",
+          "sourceId": "PR#1004",
+          "sourceUrl": "https://github.com/pallets/flask/pull/1004",
+          "extractionMethod": "hybrid",
+          "confidenceScore": 1.0,
+          "keyQuotes": [
+            {
+              "text": "We reverted the auto-escape change because it broke too many existing applications.",
+              "author": "Phil Jones",
+              "context": "PR description"
+            }
+          ]
+        },
+        "metadata": {
+          "repository": "pallets/flask",
+          "branch": "main",
+          "prNumber": 1004,
+          "commitSha": "abc4def4123",
+          "authors": [
+            "Phil Jones"
+          ],
+          "reviewers": [
+            "Armin Ronacher",
+            "David Lord"
+          ],
+          "labels": [
+            "refactor",
+            "enhancement"
+          ],
+          "linkedIssues": [
+            "#904"
+          ]
+        }
+      }
+    ],
+    "persons": [
+      {
+        "id": "person-1",
+        "name": "David Lord",
+        "role": "Maintainer",
+        "email": "davidism@gmail.com",
+        "contributions": {
+          "decisionsAuthored": [],
+          "filesOwned": [],
+          "prCount": 166,
+          "impactScore": 0.96
+        },
+        "expertise": [
+          "Python",
+          "Web Frameworks",
+          "API Design"
+        ]
+      },
+      {
+        "id": "person-2",
+        "name": "Armin Ronacher",
+        "role": "Creator",
+        "email": "armin@ronacher.eu",
+        "contributions": {
+          "decisionsAuthored": [],
+          "filesOwned": [],
+          "prCount": 86,
+          "impactScore": 0.83
+        },
+        "expertise": [
+          "Python",
+          "Architecture",
+          "Performance"
+        ]
+      },
+      {
+        "id": "person-3",
+        "name": "Phil Jones",
+        "role": "Core Developer",
+        "email": "phil@example.com",
+        "contributions": {
+          "decisionsAuthored": [
+            "decision-5"
+          ],
+          "filesOwned": [
+            "src/flask/templating.py"
+          ],
+          "prCount": 164,
+          "impactScore": 0.76
+        },
+        "expertise": [
+          "Async",
+          "Testing",
+          "Documentation"
+        ]
+      },
+      {
+        "id": "person-4",
+        "name": "Grey Li",
+        "role": "Contributor",
+        "email": "grey@example.com",
+        "contributions": {
+          "decisionsAuthored": [
+            "decision-1",
+            "decision-2",
+            "decision-3",
+            "decision-4"
+          ],
+          "filesOwned": [
+            "src/flask/ctx.py",
+            "src/flask/app.py",
+            "src/flask/json/__init__.py",
+            "src/flask/app.py"
+          ],
+          "prCount": 19,
+          "impactScore": 0.96
+        },
+        "expertise": [
+          "CLI",
+          "Extensions",
+          "Tutorials"
+        ]
+      }
+    ],
+    "files": [
+      {
+        "path": "src/flask/app.py",
+        "language": "Python",
+        "lastModified": "2025-05-19T00:41:01.897300",
+        "complexity": "medium",
+        "owners": [
+          "David Lord"
+        ]
+      },
+      {
+        "path": "src/flask/blueprints.py",
+        "language": "Python",
+        "lastModified": "2025-05-21T00:41:01.897378",
+        "complexity": "low",
+        "owners": [
+          "David Lord"
+        ]
+      },
+      {
+        "path": "src/flask/cli.py",
+        "language": "Python",
+        "lastModified": "2025-09-10T00:41:01.897407",
+        "complexity": "low",
+        "owners": [
+          "David Lord"
+        ]
+      },
+      {
+        "path": "src/flask/config.py",
+        "language": "Python",
+        "lastModified": "2026-01-06T00:41:01.897431",
+        "complexity": "low",
+        "owners": [
+          "Phil Jones"
+        ]
+      },
+      {
+        "path": "src/flask/ctx.py",
+        "language": "Python",
+        "lastModified": "2025-05-25T00:41:01.897448",
+        "complexity": "medium",
+        "owners": [
+          "David Lord"
+        ]
+      },
+      {
+        "path": "src/flask/globals.py",
+        "language": "Python",
+        "lastModified": "2026-04-15T00:41:01.897466",
+        "complexity": "low",
+        "owners": [
+          "David Lord"
+        ]
+      },
+      {
+        "path": "src/flask/helpers.py",
+        "language": "Python",
+        "lastModified": "2025-12-10T00:41:01.897481",
+        "complexity": "low",
+        "owners": [
+          "David Lord"
+        ]
+      },
+      {
+        "path": "src/flask/json/__init__.py",
+        "language": "Python",
+        "lastModified": "2025-11-23T00:41:01.897496",
+        "complexity": "low",
+        "owners": [
+          "Phil Jones"
+        ]
+      },
+      {
+        "path": "src/flask/sessions.py",
+        "language": "Python",
+        "lastModified": "2025-05-02T00:41:01.897510",
+        "complexity": "low",
+        "owners": [
+          "David Lord"
+        ]
+      },
+      {
+        "path": "src/flask/templating.py",
+        "language": "Python",
+        "lastModified": "2025-07-20T00:41:01.897531",
+        "complexity": "low",
+        "owners": [
+          "David Lord"
+        ]
+      },
+      {
+        "path": "src/flask/testing.py",
+        "language": "Python",
+        "lastModified": "2025-07-18T00:41:01.897546",
+        "complexity": "low",
+        "owners": [
+          "David Lord"
+        ]
+      },
+      {
+        "path": "src/flask/views.py",
+        "language": "Python",
+        "lastModified": "2025-05-19T00:41:01.897560",
+        "complexity": "low",
+        "owners": [
+          "Armin Ronacher"
+        ]
+      },
+      {
+        "path": "src/flask/wrappers.py",
+        "language": "Python",
+        "lastModified": "2025-08-09T00:41:01.897574",
+        "complexity": "low",
+        "owners": [
+          "Phil Jones"
+        ]
+      }
+    ],
+    "landmines": [
+      {
+        "id": "landmine-1",
+        "severity": "high",
+        "status": "active",
+        "location": {
+          "file": "src/flask/ctx.py",
+          "function": "N/A",
+          "lineRange": "1-100"
+        },
+        "warning": {
+          "title": "⚠️ Refactor application context to use context locals",
+          "description": "Extensions that directly access thread locals will break. Must update to use context locals API.",
+          "symptoms": [
+            "Unexpected behavior",
+            "Breaking changes"
+          ],
+          "rootCause": "Addressing technical requirements"
+        },
+        "history": [
+          {
+            "timestamp": "2026-02-27T00:41:01.897595",
+            "incident": "Refactor application context to use context locals",
+            "impact": "Breaking change for some users",
+            "resolution": "Documented in migration guide"
+          }
+        ],
+        "prevention": {
+          "recommendations": [
+            "Review migration guide",
+            "Test thoroughly before upgrading",
+            "Check extension compatibility"
+          ],
+          "relatedDecisions": [
+            "decision-1"
+          ],
+          "documentation": "https://flask.palletsprojects.com/changes/#1000"
+        }
+      },
+      {
+        "id": "landmine-2",
+        "severity": "medium",
+        "status": "active",
+        "location": {
+          "file": "src/flask/json/__init__.py",
+          "function": "N/A",
+          "lineRange": "1-100"
+        },
+        "warning": {
+          "title": "⚠️ Deprecate JSONEncoder in favor of json.dumps",
+          "description": "Custom JSONEncoder subclasses will stop working. Users must migrate to provider pattern.",
+          "symptoms": [
+            "Unexpected behavior",
+            "Breaking changes"
+          ],
+          "rootCause": "The problem was maintaining a parallel JSON encoding system that duplicated standard library functionality."
+        },
+        "history": [
+          {
+            "timestamp": "2025-07-31T00:41:01.962690",
+            "incident": "Deprecate JSONEncoder in favor of json.dumps",
+            "impact": "Breaking change for some users",
+            "resolution": "Documented in migration guide"
+          }
+        ],
+        "prevention": {
+          "recommendations": [
+            "Review migration guide",
+            "Test thoroughly before upgrading",
+            "Check extension compatibility"
+          ],
+          "relatedDecisions": [
+            "decision-3"
+          ],
+          "documentation": "https://flask.palletsprojects.com/changes/#1002"
+        }
+      },
+      {
+        "id": "landmine-3",
+        "severity": "medium",
+        "status": "active",
+        "location": {
+          "file": "src/flask/templating.py",
+          "function": "N/A",
+          "lineRange": "1-100"
+        },
+        "warning": {
+          "title": "⚠️ Reverted: Auto-escape all template variables by default",
+          "description": "Template variables are NOT auto-escaped by default. Must use |e filter or Markup() explicitly.",
+          "symptoms": [
+            "Unexpected behavior",
+            "Breaking changes"
+          ],
+          "rootCause": "The problem was that while auto-escaping improves security, the migration path was too disruptive for the ecosystem."
+        },
+        "history": [
+          {
+            "timestamp": "2025-08-30T00:41:02.005314",
+            "incident": "Reverted: Auto-escape all template variables by default",
+            "impact": "Breaking change for some users",
+            "resolution": "Documented in migration guide"
+          }
+        ],
+        "prevention": {
+          "recommendations": [
+            "Review migration guide",
+            "Test thoroughly before upgrading",
+            "Check extension compatibility"
+          ],
+          "relatedDecisions": [
+            "decision-5"
+          ],
+          "documentation": "https://flask.palletsprojects.com/changes/#1004"
+        }
+      }
+    ]
+  },
+  "relationships": [
+    {
+      "from": "decision-1",
+      "to": "person-4",
+      "type": "MADE_BY",
+      "timestamp": "2026-02-27T00:41:01.897595",
+      "strength": 1.0
+    },
+    {
+      "from": "decision-1",
+      "to": "src/flask/ctx.py",
+      "type": "AFFECTS",
+      "timestamp": "2026-02-27T00:41:01.897595",
+      "strength": 0.8
+    },
+    {
+      "from": "decision-1",
+      "to": "src/flask/globals.py",
+      "type": "AFFECTS",
+      "timestamp": "2026-02-27T00:41:01.897595",
+      "strength": 0.8
+    },
+    {
+      "from": "decision-1",
+      "to": "landmine-1",
+      "type": "CREATES",
+      "timestamp": "2026-02-27T00:41:01.897595",
+      "strength": 0.9
+    },
+    {
+      "from": "decision-2",
+      "to": "person-4",
+      "type": "MADE_BY",
+      "timestamp": "2024-07-03T00:41:01.944721",
+      "strength": 1.0
+    },
+    {
+      "from": "decision-2",
+      "to": "src/flask/app.py",
+      "type": "AFFECTS",
+      "timestamp": "2024-07-03T00:41:01.944721",
+      "strength": 0.8
+    },
+    {
+      "from": "decision-2",
+      "to": "src/flask/blueprints.py",
+      "type": "AFFECTS",
+      "timestamp": "2024-07-03T00:41:01.944721",
+      "strength": 0.8
+    },
+    {
+      "from": "decision-2",
+      "to": "src/flask/views.py",
+      "type": "AFFECTS",
+      "timestamp": "2024-07-03T00:41:01.944721",
+      "strength": 0.8
+    },
+    {
+      "from": "decision-3",
+      "to": "person-4",
+      "type": "MADE_BY",
+      "timestamp": "2025-07-31T00:41:01.962690",
+      "strength": 1.0
+    },
+    {
+      "from": "decision-3",
+      "to": "src/flask/json/__init__.py",
+      "type": "AFFECTS",
+      "timestamp": "2025-07-31T00:41:01.962690",
+      "strength": 0.8
+    },
+    {
+      "from": "decision-3",
+      "to": "landmine-2",
+      "type": "CREATES",
+      "timestamp": "2025-07-31T00:41:01.962690",
+      "strength": 0.9
+    },
+    {
+      "from": "decision-4",
+      "to": "person-4",
+      "type": "MADE_BY",
+      "timestamp": "2025-10-29T00:41:01.984102",
+      "strength": 1.0
+    },
+    {
+      "from": "decision-4",
+      "to": "src/flask/app.py",
+      "type": "AFFECTS",
+      "timestamp": "2025-10-29T00:41:01.984102",
+      "strength": 0.8
+    },
+    {
+      "from": "decision-4",
+      "to": "src/flask/views.py",
+      "type": "AFFECTS",
+      "timestamp": "2025-10-29T00:41:01.984102",
+      "strength": 0.8
+    },
+    {
+      "from": "decision-5",
+      "to": "person-3",
+      "type": "MADE_BY",
+      "timestamp": "2025-08-30T00:41:02.005314",
+      "strength": 1.0
+    },
+    {
+      "from": "decision-5",
+      "to": "src/flask/templating.py",
+      "type": "AFFECTS",
+      "timestamp": "2025-08-30T00:41:02.005314",
+      "strength": 0.8
+    },
+    {
+      "from": "decision-5",
+      "to": "landmine-3",
+      "type": "CREATES",
+      "timestamp": "2025-08-30T00:41:02.005314",
+      "strength": 0.9
+    }
+  ]
+}

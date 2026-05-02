@@ -1,0 +1,80 @@
+.tour-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(30, 45, 38, 0.2);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.tour-card {
+  width: 400px;
+  padding: 32px !important;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.25) !important;
+  border-color: var(--sage) !important;
+}
+
+.tour-progress {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.progress-dot {
+  flex: 1;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  transition: var(--transition);
+}
+
+.progress-dot.active {
+  background: var(--sage);
+}
+
+.tour-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.sparkle-icon {
+  color: var(--amber);
+}
+
+.tour-header h3 {
+  font-size: 24px;
+  color: var(--forest);
+}
+
+.close-tour {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: white;
+  border: 1px solid var(--border);
+  padding: 4px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+
+.tour-content {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.tour-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

@@ -1,9 +1,11 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, Quote, User } from 'lucide-react';
+import { getPersons } from '../utils/dataLoader';
+import GhostChat from './GhostChat';
 import './GhostMentor.css';
 
-const MentorCard = ({ name, role, era, avatar, bio, sample }) => (
+const MentorCard = ({ id, name, role, era, avatar, bio, sample, onConsult }) => (
   <div className="card mentor-card">
     <div className="mentor-header">
       <div className="mentor-avatar">{avatar}</div>
@@ -17,7 +19,11 @@ const MentorCard = ({ name, role, era, avatar, bio, sample }) => (
       <Quote size={14} />
       <p>{sample}</p>
     </div>
-    <button className="btn-primary" style={{ width: '100%', justifyContent: 'center', marginTop: '16px' }}>
+    <button 
+      className="btn-primary" 
+      style={{ width: '100%', justifyContent: 'center', marginTop: '16px' }}
+      onClick={() => onConsult(id)}
+    >
       <MessageSquare size={18} />
       Consult {name.split(' ')[0]}
     </button>
@@ -25,24 +31,20 @@ const MentorCard = ({ name, role, era, avatar, bio, sample }) => (
 );
 
 const GhostMentor = () => {
-  const mentors = [
-    {
-      name: "Sarah Chen",
-      role: "Lead Architect",
-      era: "2021 - 2023",
-      avatar: "👩🏻‍💻",
-      bio: "Authored the core microservices layer. Known for aggressive performance optimization and strict type safety.",
-      sample: "If you're looking at the billing service, don't use a float for currency. We learned that the hard way in the Q3 incident."
-    },
-    {
-      name: "Marcus Vane",
-      role: "Senior Backend",
-      era: "2019 - 2022",
-      avatar: "👨🏼‍💻",
-      bio: "Designed the original data pipeline. Advocate for simple, readable code over clever abstractions.",
-      sample: "The database schema is denormalized for a reason. Don't try to join the events table on the fly."
-    }
-  ];
+  const persons = getPersons();
+  const [activePersona, setActivePersona] = useState(null);
+  
+  const mentors = persons.map(p => ({
+    id: p.id,
+    name: p.name,
+    role: p.role,
+    era: p.id === 'person-2' ? 'Founding Era' : 'Current Maintainer',
+    avatar: p.id === 'person-2' ? '👨🏻‍💻' : '👩🏻‍💻',
+    bio: `${p.name} has contributed ${p.prCount} PRs and has an impact score of ${p.impactScore}. Expertise: ${p.expertise.join(', ')}.`,
+    sample: p.id === 'person-2' 
+      ? "Flask is a micro-framework for a reason. Keep the core small, and let extensions do the rest." 
+      : "We need to ensure async support doesn't break the existing WSGI ecosystem."
+  }));
 
   return (
     <motion.div 
@@ -59,7 +61,11 @@ const GhostMentor = () => {
 
       <div className="mentor-grid">
         {mentors.map((m, i) => (
-          <MentorCard key={i} {...m} />
+          <MentorCard 
+            key={i} 
+            {...m} 
+            onConsult={(id) => setActivePersona(id)}
+          />
         ))}
         
         <div className="card add-mentor-card">
@@ -71,6 +77,15 @@ const GhostMentor = () => {
           <button className="text-btn">Get Started</button>
         </div>
       </div>
+
+      <AnimatePresence>
+        {activePersona && (
+          <GhostChat 
+            personaId={activePersona} 
+            onClose={() => setActivePersona(null)} 
+          />
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };

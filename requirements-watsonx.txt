@@ -1,0 +1,15 @@
+# Watsonx AI Integration Dependencies
+# =====================================
+# Install with: pip install -r requirements-watsonx.txt
+
+# IBM Watson Machine Learning SDK for Watsonx AI
+ibm-watson-machine-learning>=1.0.335
+
+# Environment variable management
+python-dotenv>=1.0.0
+
+# Standard library dependencies (usually pre-installed)
+# - json (built-in)
+# - pathlib (built-in)
+# - typing (built-in)
+# - argparse (built-in)

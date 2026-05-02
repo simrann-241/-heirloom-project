@@ -1,19 +1,21 @@
-import React, { useState } from 'react';
-import { 
-  LayoutDashboard, 
-  MessageSquare, 
-  History, 
-  Zap, 
-  Settings, 
-  Search,
+import React, { useState, useEffect } from 'react';
+import {
+  LayoutDashboard,
+  MessageSquare,
+  History,
+  Settings,
+  Ghost,
   BookOpen,
-  ArrowRight,
-  ShieldAlert,
-  Ghost
+  Cpu
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Dashboard from './components/Dashboard';
 import GhostMentor from './components/GhostMentor';
 import WhyChat from './components/WhyChat';
+import KnowledgeGraph from './components/KnowledgeGraph';
+import LineageTimeline from './components/LineageTimeline';
+import OnboardingTour from './components/OnboardingTour';
+import NeuralAnalysis from './components/NeuralAnalysis';
 import './App.css';
 
 const Sidebar = ({ activeTab, setActiveTab }) => {
@@ -23,6 +25,7 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
     { id: 'ghost-mentor', icon: Ghost, label: 'Ghost Mentor' },
     { id: 'knowledge', icon: BookOpen, label: 'Knowledge Graph' },
     { id: 'history', icon: History, label: 'Lineage' },
+    { id: 'neural', icon: Cpu, label: 'Neural Analysis' },
   ];
 
   return (
@@ -46,6 +49,10 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
       </nav>
 
       <div className="sidebar-footer">
+        <div className="bob-status">
+          <div className="pulse"></div>
+          <span>Bob Engine Active</span>
+        </div>
         <button className="nav-item">
           <Settings size={20} />
           <span>Settings</span>
@@ -55,80 +62,18 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
   );
 };
 
-const Dashboard = () => {
-  return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="dashboard-content"
-    >
-      <header className="content-header">
-        <div>
-          <p className="subtitle">Welcome back, Developer</p>
-          <h2 className="heading-serif">Repository Overview</h2>
-        </div>
-        <div className="search-bar">
-          <Search size={18} />
-          <input type="text" placeholder="Search knowledge..." />
-        </div>
-      </header>
-
-      <div className="stats-grid">
-        <div className="stat-card">
-          <p>Decisions Extracted</p>
-          <h3>142</h3>
-        </div>
-        <div className="stat-card">
-          <p>Ghost Mentors</p>
-          <h3>4</h3>
-        </div>
-        <div className="stat-card">
-          <p>Landmines Detected</p>
-          <h3>12</h3>
-        </div>
-      </div>
-
-      <div className="main-grid">
-        <div className="card span-2">
-          <div className="card-header">
-            <h3 className="heading-serif">Recent Knowledge Activity</h3>
-            <button className="text-btn">View all <ArrowRight size={14} /></button>
-          </div>
-          <div className="activity-list">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="activity-item">
-                <div className="activity-icon">💡</div>
-                <div className="activity-info">
-                  <h4>New Decision Extracted: PR #402</h4>
-                  <p>Migration from REST to GraphQL for User Service. Reason: Bandwidth optimization.</p>
-                </div>
-                <span className="activity-time">2h ago</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="card">
-          <div className="card-header">
-            <h3 className="heading-serif">Active Landmines</h3>
-          </div>
-          <div className="landmine-list">
-            <div className="landmine-item warning">
-              <ShieldAlert size={18} />
-              <div>
-                <h4>auth_middleware.js</h4>
-                <p>High incident rate. Last failed March 12.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-};
-
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [showTour, setShowTour] = useState(false);
+
+  useEffect(() => {
+    // Show tour on first visit
+    const hasVisited = localStorage.getItem('heirloom_visited');
+    if (!hasVisited) {
+      setShowTour(true);
+      localStorage.setItem('heirloom_visited', 'true');
+    }
+  }, []);
 
   return (
     <div className="app-container">
@@ -136,10 +81,13 @@ export default function App() {
       
       <main className="main-content">
         <AnimatePresence mode="wait">
-          {activeTab === 'dashboard' && <Dashboard key="dashboard" />}
-          {activeTab === 'ghost-mentor' && <GhostMentor key="ghost-mentor" />}
-          {activeTab === 'why-chat' && <WhyChat key="why-chat" />}
-          {activeTab !== 'dashboard' && activeTab !== 'ghost-mentor' && activeTab !== 'why-chat' && (
+          {activeTab === 'dashboard' && <Dashboard key="dashboard" onStartTour={() => setShowTour(true)} />}
+          {activeTab === 'ghost-mentor' && <GhostMentor key="ghost-mentor" id="nav-ghost-mentor" />}
+          {activeTab === 'why-chat' && <WhyChat key="why-chat" id="nav-why-chat" />}
+          {activeTab === 'knowledge' && <KnowledgeGraph key="knowledge" />}
+          {activeTab === 'history' && <LineageTimeline key="history" />}
+          {activeTab === 'neural' && <NeuralAnalysis key="neural" />}
+          {activeTab !== 'dashboard' && activeTab !== 'ghost-mentor' && activeTab !== 'why-chat' && activeTab !== 'knowledge' && activeTab !== 'history' && activeTab !== 'neural' && (
             <motion.div 
               key="placeholder"
               initial={{ opacity: 0, scale: 0.98 }}
@@ -148,12 +96,16 @@ export default function App() {
               className="placeholder-view"
             >
               <h2 className="heading-serif">{activeTab.replace('-', ' ')}</h2>
-              <p>The Bob-powered engine is analyzing your repository lineage.</p>
+              <p>The Bob-powered engine is traversing the knowledge graph.</p>
               <div className="loading-spinner"></div>
             </motion.div>
           )}
         </AnimatePresence>
       </main>
+
+      <AnimatePresence>
+        {showTour && <OnboardingTour onComplete={() => setShowTour(false)} />}
+      </AnimatePresence>
     </div>
   );
 }
