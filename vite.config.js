@@ -1,21 +1,29 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { visualizer } from 'rollup-plugin-visualizer'
 
 // https://vite.dev/config/
 export default defineConfig({
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './tests/setup.js',
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      exclude: [
+        'node_modules/',
+        'tests/',
+        '*.config.js',
+      ],
+    },
+  },
+  
   plugins: [
     react({
       // Enable Fast Refresh for better DX
       fastRefresh: true,
       // Optimize JSX runtime
       jsxRuntime: 'automatic',
-    }),
-    // Bundle analyzer (only in build mode)
-    process.env.ANALYZE && visualizer({
-      open: true,
-      gzipSize: true,
-      brotliSize: true,
     }),
   ],
   

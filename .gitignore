@@ -15,6 +15,19 @@ dist-ssr
 # Environment variables
 .env
 
+# Testing
+coverage
+.nyc_output
+htmlcov
+.coverage
+.pytest_cache
+*.cover
+.hypothesis
+.vitest
+
+# Vercel
+.vercel
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

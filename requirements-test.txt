@@ -1,0 +1,22 @@
+# Testing Dependencies
+# ====================
+# Install with: pip install -r requirements-test.txt
+
+# Testing framework
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-mock>=3.11.1
+
+# Flask testing
+Flask>=3.0.0
+flask-cors>=4.0.0
+
+# HTTP mocking
+requests-mock>=1.11.0
+
+# Code coverage
+coverage>=7.3.0
+
+# Core dependencies (without heavy ML libraries for testing)
+python-dotenv>=1.0.0
+requests>=2.22.0

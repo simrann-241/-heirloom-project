@@ -30,5 +30,81 @@ Heirloom leverages **IBM Watsonx.ai Granite-13B-Chat-v2**, an enterprise-grade f
 ## 🚀 Impact
 Heirloom reduces onboarding time from months to minutes. By making institutional knowledge conversational and visual, we empower teams to build on their heritage rather than repeating its mistakes.
 
+## 🧪 Testing & Quality Assurance
+
+Heirloom includes a comprehensive test suite ensuring reliability and maintainability:
+
+### Frontend Tests (Vitest + React Testing Library)
+- ✅ 13+ component tests for [`WhyChat.jsx`](src/components/WhyChat.jsx)
+- ✅ User interaction testing
+- ✅ API integration testing
+- ✅ Fallback behavior validation
+- ✅ 80%+ code coverage target
+
+### Backend Tests (Pytest)
+- ✅ 25+ unit tests for [`watsonx_chat.py`](scripts/watsonx_chat.py)
+- ✅ Smart fallback logic testing
+- ✅ IBM Cloud IAM authentication testing
+- ✅ Flask endpoint testing
+- ✅ 85%+ code coverage target
+
+### Running Tests
+
+```bash
+# Frontend tests
+npm test                    # Run all tests
+npm run test:coverage       # Generate coverage report
+
+# Backend tests
+pytest                      # Run all Python tests
+pytest --cov=scripts        # Run with coverage
+```
+
+## 🚀 CI/CD Pipeline
+
+Automated testing and deployment via GitHub Actions:
+
+- **Continuous Integration**: Runs on every push and PR
+- **Automated Testing**: Frontend (Vitest) + Backend (Pytest)
+- **Security Scanning**: npm audit + Python safety checks
+- **Automatic Deployment**: Deploys to Vercel on successful tests
+- **Preview Deployments**: Creates preview URLs for pull requests
+
+### Deployment
+
+```bash
+# Manual deployment
+vercel --prod
+
+# Automatic deployment
+# Push to main branch → Auto-deploys to production
+# Create PR → Auto-creates preview deployment
+```
+
+## 📚 Documentation
+
+- [Testing & Deployment Guide](docs/testing-and-deployment-guide.md) - Complete setup and troubleshooting
+- [Test Suite Documentation](tests/README.md) - Detailed test coverage and patterns
+- [Watsonx Integration Guide](docs/watsonx-integration-guide.md) - AI integration details
+- [Performance & Accessibility Audit](docs/performance-accessibility-audit.md) - Quality metrics
+
+## 🛠️ Quick Start
+
+```bash
+# Install dependencies
+npm install
+pip install -r requirements-test.txt
+
+# Run development server
+npm run dev
+
+# Run tests
+npm test
+pytest
+
+# Build for production
+npm run build
+```
+
 ---
-**Turn your heritage into your edge with Heirloom.**
+**Turn your heritage into your edge with Heirloom.** 🛡️
