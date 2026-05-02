@@ -95,17 +95,40 @@ const Dashboard = ({ onStartTour }) => {
       </header>
 
       <div className="stats-grid">
-        <div className="stat-card">
+        <div className="stat-card card glass">
           <p>Decisions Inherited</p>
           <h3>{meta.totalDecisions}</h3>
         </div>
-        <div className="stat-card">
+        <div className="stat-card card glass">
           <p>Active Landmines</p>
           <h3>{meta.totalLandmines}</h3>
         </div>
-        <div className="stat-card">
+        <div className="stat-card card glass">
           <p>Files Indexed</p>
           <h3>{meta.totalFiles}</h3>
+        </div>
+      </div>
+
+      <div className="pulse-monitor-section">
+        <div className="live-pulse-monitor card glass shadow-sm">
+          <div className="pulse-header">
+            <div className="status-dot-active"></div>
+            <h4>Bob Reasoning Engine</h4>
+          </div>
+          <div className="pulse-graph">
+            {[...Array(20)].map((_, i) => (
+              <motion.div 
+                key={i}
+                className="pulse-bar"
+                animate={{ height: [10, 30, 15, 40, 10] }}
+                transition={{ duration: 2, repeat: Infinity, delay: i * 0.1 }}
+              />
+            ))}
+          </div>
+          <div className="pulse-footer">
+            <span>99.9% Uptime</span>
+            <span>340ms Latency</span>
+          </div>
         </div>
       </div>
 
