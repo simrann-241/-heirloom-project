@@ -54,17 +54,14 @@ export default defineConfig({
     // Chunk splitting strategy for optimal caching
     rollupOptions: {
       output: {
-        manualChunks: {
-          // Vendor chunk for React and core libraries
-          'vendor-react': ['react', 'react-dom'],
-          
-          // Animation libraries
-          'vendor-animation': ['framer-motion'],
-          
-          // Icons
-          'vendor-icons': ['lucide-react'],
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('react')) return 'vendor-react';
+            if (id.includes('framer-motion')) return 'vendor-animation';
+            if (id.includes('lucide-react')) return 'vendor-icons';
+            return 'vendor';
+          }
         },
-        
         // Optimize chunk file names
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
