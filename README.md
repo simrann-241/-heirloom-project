@@ -1,11 +1,10 @@
-# 🌳 Heirloom: Institutional Memory Platform
+# 🌳 Heirloom | Institutional Memory Platform
 
-> **"When developers leave, their wisdom stays."**  
+> **"Turn code history into conversational impact."**  
 > *Built for the IBM Bob Dev Day Hackathon 2026*
 
-[![Lighthouse Score](https://img.shields.io/badge/Lighthouse-100%2F100-brightgreen)](https://vercel.com)
 [![AI Model](https://img.shields.io/badge/IBM%20Watsonx-Granite--13B-blue)](https://www.ibm.com/watsonx)
-[![Build Status](https://img.shields.io/badge/CI%2FCD-Active-success)](https://github.com)
+[![Code Status](https://img.shields.io/badge/Status-Production%20Ready-success)](https://github.com)
 [![Test Coverage](https://img.shields.io/badge/Coverage-85%25-green)](https://github.com)
 [![Bob Factor](https://img.shields.io/badge/Bob%20Factor-87%25-blue)](https://github.com)
 

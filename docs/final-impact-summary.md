@@ -217,10 +217,9 @@ Frontend falls back to local context when backend is unavailable, ensuring demo 
 ## 🎯 Next Steps for Production
 
 ### Immediate (Week 1)
-1. Deploy backend to cloud platform (IBM Cloud, AWS, Azure)
+1. Deploy backend to cloud platform (IBM Cloud)
 2. Configure production environment variables
-3. Set up CI/CD pipeline
-4. Enable HTTPS/SSL
+3. Enable HTTPS/SSL
 
 ### Short-term (Month 1)
 1. Implement user authentication
